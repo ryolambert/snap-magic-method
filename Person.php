@@ -51,8 +51,15 @@ public function getPersonAge(): int {
 		if($newPersonAge > 118) {
 			echo ("captain @deepdivedylan");
 		}
+		$this->personAge = $newPersonAge;
 	}
 
-	public function
+	public function __toString() {
+		return "<tr> ".$this->personName." is ".$this->personAge." years old. </tr>";
+	}
 }
+
+$newPerson= new Person("Professor", 120);
+echo $newPerson;
+
 
