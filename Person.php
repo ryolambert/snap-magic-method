@@ -1,10 +1,10 @@
 <?php
 
 class Person {
-	private $personName;
 	private $personAge;
+	private $personName;
 
-	public function __construct(string $newPersonName, int $newPersonAge) {
+	public function __construct(int $newPersonAge, string $newPersonName) {
 		try {
 			$this->setPersonName($newPersonName);
 			$this->setPersonAge($newPersonAge);
@@ -12,6 +12,34 @@ class Person {
 			//determine what exception type was thrown
 			throw(new \Exception($e->getMessage(), 0, $e));
 		}
+	}
+
+	public function getPersonAge(): int {
+		return ($this->personAge);
+	}
+
+	public function setPersonAge(int $newPersonAge): void {
+		$newPersonAge = trim($newPersonAge);
+		$newPersonAge = filter_var($newPersonAge, FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newPersonAge) === true) {
+			throw(new \InvalidArgumentException("Entered age is empty or insecure"));
+		}
+
+
+		if($newPersonAge < 0) {
+			throw(new \RangeException("No, you cannot be a negative age... Try again."));
+		}
+		// verify identity of person with specified age
+		if($newPersonAge === 0) {
+			echo ("hi, caleb");
+		}
+		if($newPersonAge < 19) {
+			echo ("hi, caleb");
+		}
+		if($newPersonAge > 118) {
+			echo ("captain @deepdivedylan");
+		}
+		$this->personAge = $newPersonAge;
 	}
 
 	public function getPersonName(): string {
@@ -31,35 +59,17 @@ public function setPersonName(string $newPersonName): void {
 	$this->personName = $newPersonName;
 }
 
-public function getPersonAge(): int {
-		return ($this->personAge);
-}
 
-	public function setPersonAge(int $newPersonAge): void {
-		$newPersonAge = trim($newPersonAge);
-		$newPersonAge = filter_var($newPersonAge, FILTER_SANITIZE_NUMBER_INT, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newPersonAge) === true) {
-			throw(new \InvalidArgumentException("Entered age is empty or insecure"));
-		}
-		// verify identity of person with specified age
-		if($newPersonAge === 0) {
-			echo ("hi, caleb");
-		}
-		if($newPersonAge < 19) {
-			echo ("hi, caleb");
-		}
-		if($newPersonAge > 118) {
-			echo ("captain @deepdivedylan");
-		}
-		$this->personAge = $newPersonAge;
-	}
 
 	public function __toString() {
-		return "<tr> ".$this->personName." is ".$this->personAge." years old. </tr>";
+		return "<tr><td> Name: ".$this->personName."</td><td> Age: ".$this->personAge." </td></tr> ";
 	}
 }
 
-$newPerson= new Person("Professor", 120);
-echo $newPerson;
+$newPersonOne = new Person(120, "Professor");
+echo $newPersonOne;
+
+$newPersonTwo = new Person(18, "Caleb");
+echo $newPersonTwo;
 
 
